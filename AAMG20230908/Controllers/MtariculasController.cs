@@ -9,31 +9,52 @@ namespace AAMG20230908.Controllers
     [ApiController]
     public class MtariculasController : ControllerBase
     {
-        static List<object> data = new List<object>();
+        static List<Matricula> data = new List<Matricula>();
+        public class Matricula
+        {
+            public int Id { get; set; }
+            public string Alumno { get; set; }
+            public string Grado { get; set; }
+            public string Seccion { get; set; }
+        }
 
-        //FALTA
         // GET api/<MtariculasController>/5
         [Authorize]
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            if (id < 0 || id >= data.Count)
+            {
+                return NotFound(); 
+            }
+
+            return Ok(data[id]);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult Post(string name, string lastname)
+        public IActionResult Post([FromBody] Matricula nuevaMatricula)
         {
-            data.Add(new { name, lastname });
+            if (nuevaMatricula == null)
+            {
+                return NotFound();
+            }
+            data.Add(nuevaMatricula);   
             return Ok(data);
         }
 
-        //FALTA
         // PUT api/<MtariculasController>/5
         [Authorize]
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] Matricula matriculaActualizada)
         {
+            if (id < 0 || id >= data.Count || matriculaActualizada == null)
+            {
+                return BadRequest(); 
+            }
+
+            data[id] = matriculaActualizada;
+            return Ok();
         }
 
     }

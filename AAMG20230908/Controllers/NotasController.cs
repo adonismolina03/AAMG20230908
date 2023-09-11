@@ -21,9 +21,10 @@ namespace AAMG20230908.Controllers
         // POST api/<TestsController>
         [Authorize]
         [HttpPost]
-        public IActionResult Post(string name, string lastname)
+        public IActionResult Post(string nota, string materia)
         {
-            data.Add(new { name, lastname });
+
+            data.Add(new { nota, materia });
             return Ok(data);
         }
 
